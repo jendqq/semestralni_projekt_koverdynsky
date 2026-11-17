@@ -34,7 +34,7 @@ def main():
         elif command.startswith("go"):
             legal_moves = list(board.legal_moves)
 
-            #zatím náhodný tah později tah podle algoritmus 
+            #zatím náhodný tah později tah podle algoritmu
             #todo: pridat algoritmus 
             if legal_moves:
                 best_move = random.choice(legal_moves)
