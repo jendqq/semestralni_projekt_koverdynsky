@@ -1,13 +1,12 @@
 import sys
+import random  
 import chess
 
 def main():
-
     board = chess.Board()
 
     while True:
         command = sys.stdin.readline().strip()
-
         if not command:
             continue
 
@@ -15,15 +14,32 @@ def main():
             print("id name ChessBot")
             print("id author JanKoverdynsky")
             print("uciok")
-            sys.stdout.flush()  
+            sys.stdout.flush()
 
         elif command == "isready":
-            print("readyok") 
+            print("readyok")
             sys.stdout.flush()
 
         elif command.startswith("position"):
-            if "startpos" in command:
-                board.set_fen(chess.STARTING_FEN) #notace nastavit board na startovní pozici
+            parts = command.split() 
+            
+            if "startpos" in parts:
+                board.set_fen(chess.STARTING_FEN) 
+            
+            if "moves" in parts:
+                moves_index = parts.index("moves") + 1
+                for move_uci in parts[moves_index:]:
+                    board.push_uci(move_uci)
+
+        elif command.startswith("go"):
+            legal_moves = list(board.legal_moves)
+
+            #zatím náhodný tah později tah podle algoritmus 
+            #todo: pridat algoritmus 
+            if legal_moves:
+                best_move = random.choice(legal_moves)
+                print(f"bestmove {best_move.uci()}")
+                sys.stdout.flush()
 
 
         elif command == "quit":
